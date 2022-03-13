@@ -3,15 +3,30 @@ import pprint
 
 from exceptions import DataLayerError
 
-PATH = 'data/data.json'
+PATH_DATA = 'data/data.json'
+PATH_COMMENTS = 'data/comments.json'
+
+
+def get_json_data(path):
+    with open(path) as file:
+        return json.load(file)
 
 
 def get_posts_all():
     """возвращает посты"""
     try:
-        with open('data/comments.json', 'r', encoding='utf=8') as file:
-            posts = json.load(file)
+        posts = get_json_data(PATH_DATA)
         return posts
+
+    except (FileNotFoundError, json.JSONDecodeError):
+        raise DataLayerError('Что-то не так с файлом')
+
+
+def get_comments_all():
+    """возвращает комментарии"""
+    try:
+        comments = get_json_data(PATH_COMMENTS)
+        return comments
 
     except (FileNotFoundError, json.JSONDecodeError):
         raise DataLayerError('Что-то не так с файлом')
@@ -33,7 +48,7 @@ def get_posts_by_user(user_name):
 
 def get_comments_by_post_id(post_id):
     """возвращает комментарии определенного поста"""
-    commentaries = get_posts_all()
+    commentaries = get_comments_all(PATH_COMMENTS)
     all_commentaries = []
     for commentary in commentaries:
         if commentary['post_id'] == post_id:
@@ -44,15 +59,22 @@ def get_comments_by_post_id(post_id):
 
 def search_for_posts(query):
     """возвращает список словарей по вхождению query"""
+    posts = get_posts_all(PATH_DATA)
+    found_content = []
+
     pass
 
 
 def get_post_by_pk(pk):
     """возвращает один пост по его идентификатору"""
-    posts = get_posts_all()
+    posts = get_posts_all(PATH_DATA)
+    found_post = None
     for post in posts:
         if post['pk'] == pk:
-            return post
+            found_post = post
+            break
+    return found_post
 
 
 print(get_post_by_pk(2))
+print(get_comments_all(4))

@@ -58,9 +58,6 @@ def search_for_posts(query):
     return found_content
 
 
-    pass
-
-
 def get_post_by_pk(pk):
     """возвращает один пост по его идентификатору"""
     posts = get_json_data(PATH_DATA)
@@ -72,6 +69,8 @@ def get_post_by_pk(pk):
     return found_post
 
 
+
 #print(get_post_by_pk(2))
 #print(get_comments_by_post_id(4))
 #print(search_for_posts('ничего'))
+#print(search_posts_for_substring('тарелка'))

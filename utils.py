@@ -22,16 +22,6 @@ def get_posts_all():
         raise DataLayerError('Что-то не так с файлом')
 
 
-def get_comments_all():
-    """возвращает комментарии"""
-    try:
-        comments = get_json_data(PATH_COMMENTS)
-        return comments
-
-    except (FileNotFoundError, json.JSONDecodeError):
-        raise DataLayerError('Что-то не так с файлом')
-
-
 def get_posts_by_user(user_name):
     """возвращает посты определенного пользователя"""
     names = get_posts_all()
@@ -48,7 +38,7 @@ def get_posts_by_user(user_name):
 
 def get_comments_by_post_id(post_id):
     """возвращает комментарии определенного поста"""
-    commentaries = get_comments_all(PATH_COMMENTS)
+    commentaries = get_json_data(PATH_COMMENTS)
     all_commentaries = []
     for commentary in commentaries:
         if commentary['post_id'] == post_id:
@@ -59,15 +49,21 @@ def get_comments_by_post_id(post_id):
 
 def search_for_posts(query):
     """возвращает список словарей по вхождению query"""
-    posts = get_posts_all(PATH_DATA)
+    posts = get_json_data(PATH_DATA)
     found_content = []
+    for post in posts:
+        if query.lower() in post['content'].lower():
+            found_content.append(post)
+
+    return found_content
+
 
     pass
 
 
 def get_post_by_pk(pk):
     """возвращает один пост по его идентификатору"""
-    posts = get_posts_all(PATH_DATA)
+    posts = get_json_data(PATH_DATA)
     found_post = None
     for post in posts:
         if post['pk'] == pk:
@@ -76,5 +72,6 @@ def get_post_by_pk(pk):
     return found_post
 
 
-print(get_post_by_pk(2))
-print(get_comments_all(4))
+#print(get_post_by_pk(2))
+#print(get_comments_by_post_id(4))
+#print(search_for_posts('ничего'))

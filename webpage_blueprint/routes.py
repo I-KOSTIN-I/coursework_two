@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request
+
 import utils
 
 webpage = Blueprint('webpage', __name__)
@@ -27,5 +28,7 @@ def search_page():
 
 @webpage.route('/users/<username>')
 def get_user_post():
-    return render_template('user-feed.html')
+    s = request.args.get('s', '')
+    search_users = utils.get_posts_by_user(s)
+    return render_template('user-feed.html', search_users=search_users, s=s)
 

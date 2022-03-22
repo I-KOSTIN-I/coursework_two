@@ -8,7 +8,7 @@ PATH_COMMENTS = 'data/comments.json'
 
 
 def get_json_data(path):
-    with open(path) as file:
+    with open(path, encoding='UTF-8') as file:
         return json.load(file)
 
 
@@ -24,16 +24,15 @@ def get_posts_all():
 
 def get_posts_by_user(user_name):
     """возвращает посты определенного пользователя"""
-    names = get_posts_all()
+    posts = get_posts_all()
     posts_user = []
     name_lower = user_name.lower()
 
-    for name in names:
-        poster_name = name['poster_name'].lower()
-        if name_lower in poster_name:
-            posts_user.append(name)
+    for post in posts:
+        if name_lower == post['poster_name'].lower():
+            posts_user.append(post)
 
-        return posts_user
+    return posts_user
 
 
 def get_comments_by_post_id(post_id):

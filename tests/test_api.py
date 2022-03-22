@@ -10,9 +10,7 @@ def tests_get_posts(client, post_keys):
     assert True
 
 
-def tests_get_one_post_exist(client):
-    response = client.get('/api/posts/1')
-    assert response.status_code == 200
+
 
 
 def tests_get_one_post_no_exist(client):

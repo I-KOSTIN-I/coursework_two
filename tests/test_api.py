@@ -10,9 +10,6 @@ def tests_get_posts(client, post_keys):
     assert True
 
 
-
-
-
 def tests_get_one_post_no_exist(client):
     response = client.get('/api/posts/12345')
     assert response.status_code == 404
